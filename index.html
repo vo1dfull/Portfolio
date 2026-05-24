@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Redirecting to portfolio</title>
+</head>
+<body>
+  <p>Redirecting to portfolio...</p>
+  <script>
+    const candidates = ['portfolio.html', 'portfollio.html'];
+    (function tryNext(i){
+      if(i >= candidates.length){
+        document.body.innerHTML = 'Could not find portfolio file. <a href="portfollio.html">Open portfollio.html</a>';
+        return;
+      }
+      fetch(candidates[i], { method: 'HEAD' }).then(res => {
+        if(res.ok) window.location.replace(candidates[i]);
+        else tryNext(i+1);
+      }).catch(() => tryNext(i+1));
+    })(0);
+  </script>
+</body>
+</html>
