@@ -92,6 +92,18 @@
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .hamburger { display: none; background: none; border: 1px solid var(--border); color: var(--muted); padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 16px; }
+
+  /* Mobile: toggleable sidebar */
+  @media (max-width: 800px) {
+    .hamburger { display: inline-flex; margin-right: 8px; }
+    .sidebar { transform: translateX(-100%); transition: transform 240ms ease; width: 70%; left: 0; top: 0; height: 100%; z-index: 40; }
+    .sidebar.open { transform: translateX(0); }
+    .nav { display: block; }
+    .nav a { display: block; }
+    .main { margin-left: 0; padding-top: 56px; }
+    .topbar { left: 0; right: 0; }
+  }
 </style>
 </head>
 <body>
@@ -109,6 +121,7 @@
   <div class="sidebar-footer">CyronOS tty1 [v1.0.0]</div>
 </nav>
 <div class="topbar">
+  <button id="sidebarToggle" class="hamburger" aria-label="Toggle menu">☰</button>
   <a class="topbar-btn" href="https://urban-reality-os.vercel.app" target="_blank">&#9650; vercel</a>
   <a class="topbar-btn" href="mailto:adr7rshchaudhary@gmail.com">&#9993; email</a>
   <a class="topbar-btn" href="https://github.com/vo1dfull" target="_blank">&#10092;/&#10093; github</a>
@@ -202,7 +215,6 @@
     <div class="t-output">
       <div class="contact-grid">
         <a class="contact-item" href="mailto:adr7rshchaudhary@gmail.com"><span class="contact-label">email</span><span class="contact-val">adr7rshchaudhary@gmail.com</span></a>
-        <a class="contact-item" href="tel:+917701979269"><span class="contact-label">phone</span><span class="contact-val">+91 77019 79269</span></a>
         <a class="contact-item" href="https://linkedin.com/in/adarshchaudhary67" target="_blank"><span class="contact-label">linkedin</span><span class="contact-val">linkedin.com/in/adarshchaudhary67</span></a>
         <a class="contact-item" href="https://github.com/vo1dfull" target="_blank"><span class="contact-label">github</span><span class="contact-val">github.com/vo1dfull</span></a>
         <a class="contact-item" href="https://urban-reality-os.vercel.app" target="_blank"><span class="contact-label">project &#9650;</span><span class="contact-val">urban-reality-os.vercel.app</span></a>
@@ -231,6 +243,14 @@
       if (target) target.scrollIntoView({ behavior: 'smooth' });
     });
   });
+  
+    // Sidebar toggle for mobile
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebar = document.querySelector('.sidebar');
+    if (sidebarToggle && sidebar) {
+      sidebarToggle.addEventListener('click', () => sidebar.classList.toggle('open'));
+      navLinks.forEach(a => a.addEventListener('click', () => { if (window.innerWidth <= 800) sidebar.classList.remove('open'); }));
+    }
 </script>
 </body>
 </html>
