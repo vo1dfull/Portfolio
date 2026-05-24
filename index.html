@@ -94,6 +94,26 @@
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
   .hamburger { display: none; background: none; border: 1px solid var(--border); color: var(--muted); padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 16px; }
 
+  /* BOOT SCREEN */
+  #boot-screen { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.6s ease; }
+  #boot-screen.fade-out { opacity: 0; pointer-events: none; }
+  .boot-terminal { width: 560px; max-width: 90vw; background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; box-shadow: 0 0 60px rgba(124,158,248,0.08); }
+  .boot-titlebar { background: var(--bg3); padding: 10px 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--border); }
+  .boot-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .boot-dot.r { background: #f06e6e; } .boot-dot.y { background: #f0d45e; } .boot-dot.g { background: #5ef0a0; }
+  .boot-title { margin-left: 8px; font-size: 11px; color: var(--muted); }
+  .boot-body { padding: 28px 32px 32px; min-height: 220px; }
+  .boot-line { font-size: 13px; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; min-height: 22px; }
+  .boot-line .blabel { color: var(--muted); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; width: 70px; flex-shrink: 0; }
+  .boot-line .bcontent { color: var(--text); }
+  .boot-line .bcmd { color: var(--accent); }
+  .boot-line .bcmd::before { content: '$ '; color: var(--muted); }
+  .boot-line .bok { color: var(--green); margin-left: 6px; }
+  .type-cursor { display: inline-block; width: 7px; height: 13px; background: var(--accent); margin-left: 1px; vertical-align: -2px; animation: blink 0.8s step-end infinite; }
+  .hidden { display: none !important; }
+  #app { opacity: 0; transition: opacity 0.5s ease; }
+  #app.visible { opacity: 1; }
+
   /* Mobile: toggleable sidebar */
   @media (max-width: 800px) {
     .hamburger { display: inline-flex; margin-right: 8px; }
@@ -107,6 +127,45 @@
 </style>
 </head>
 <body>
+
+<!-- BOOT SCREEN -->
+<div id="boot-screen">
+  <div class="boot-terminal">
+    <div class="boot-titlebar">
+      <div class="boot-dot r"></div><div class="boot-dot y"></div><div class="boot-dot g"></div>
+      <span class="boot-title">CyronOS &mdash; tty1</span>
+    </div>
+    <div class="boot-body">
+      <div class="boot-line">
+        <span class="blabel">SYSTEM</span>
+        <span class="bcontent" id="b-welcome"></span><span class="type-cursor" id="c-welcome"></span>
+      </div>
+      <div class="boot-line hidden" id="line-cmd">
+        <span class="blabel"></span>
+        <span class="bcmd" id="b-cmd"></span><span class="type-cursor" id="c-cmd"></span>
+      </div>
+      <div class="boot-line hidden" id="line-init1">
+        <span class="blabel"></span>
+        <span class="bcontent" style="color:var(--muted)">Initializing portfolio....<span id="ok1"></span></span>
+      </div>
+      <div class="boot-line hidden" id="line-init2">
+        <span class="blabel"></span>
+        <span class="bcontent" style="color:var(--muted)">Loading Core Libraries....<span id="ok2"></span></span>
+      </div>
+      <div class="boot-line hidden" id="line-init3">
+        <span class="blabel"></span>
+        <span class="bcontent" style="color:var(--muted)">Starting Services....<span id="ok3"></span></span>
+      </div>
+      <div class="boot-line hidden" id="line-done">
+        <span class="blabel"></span>
+        <span class="bcontent" style="color:var(--green); font-size:12px;">&#9679; System ready. Launching portfolio...</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
 <nav class="sidebar">
   <div class="avatar">AC</div>
   <ul class="nav">
@@ -222,7 +281,49 @@
     </div>
   </section>
 </main>
+</div><!-- end #app -->
+
 <script>
+  // BOOT ANIMATION
+  function typeText(elId, text, speed, callback) {
+    const el = document.getElementById(elId);
+    let i = 0;
+    const interval = setInterval(() => {
+      el.textContent += text[i]; i++;
+      if (i >= text.length) { clearInterval(interval); if (callback) callback(); }
+    }, speed);
+  }
+  function hideCursor(id) { const c = document.getElementById(id); if (c) c.style.display = 'none'; }
+  function show(id) { document.getElementById(id).classList.remove('hidden'); }
+  function delay(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
+
+  async function runBoot() {
+    await delay(300);
+    typeText('b-welcome', 'Welcome to CyronOS tty1 [Ver. 1.0.0]', 38, async () => {
+      await delay(500);
+      hideCursor('c-welcome');
+      show('line-cmd');
+      typeText('b-cmd', 'init portfolio', 60, async () => {
+        await delay(300);
+        hideCursor('c-cmd');
+        await delay(200); show('line-init1');
+        await delay(500); document.getElementById('ok1').textContent = '[OK]'; document.getElementById('ok1').style.color = 'var(--green)';
+        await delay(400); show('line-init2');
+        await delay(600); document.getElementById('ok2').textContent = '[OK]'; document.getElementById('ok2').style.color = 'var(--green)';
+        await delay(400); show('line-init3');
+        await delay(700); document.getElementById('ok3').textContent = '[OK]'; document.getElementById('ok3').style.color = 'var(--green)';
+        await delay(400); show('line-done');
+        await delay(900);
+        document.getElementById('boot-screen').classList.add('fade-out');
+        await delay(600);
+        document.getElementById('boot-screen').style.display = 'none';
+        document.getElementById('app').classList.add('visible');
+      });
+    });
+  }
+  runBoot();
+
+  // SCROLL SPY + SIDEBAR TOGGLE (your original code)
   const sections = document.querySelectorAll('.section');
   const navLinks = document.querySelectorAll('.nav a');
   const observer = new IntersectionObserver((entries) => {
