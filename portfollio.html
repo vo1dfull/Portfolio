@@ -92,20 +92,6 @@
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
-  /* Mobile / small screens */
-  @media (max-width: 800px) {
-    .sidebar { position: fixed; top: 0; left: 0; right: 0; width: 100%; height: auto; display: flex; flex-direction: row; align-items: center; padding: 8px 10px; gap: 10px; border-right: none; border-bottom: 1px solid var(--border); z-index: 30; }
-    .avatar { display: none; }
-    .nav { display: flex; gap: 6px; overflow-x: auto; padding-left: 8px; }
-    .nav a { display: inline-block; padding: 8px 10px; font-size: 13px; }
-    .topbar { position: fixed; top: 48px; left: 0; right: 0; height: 44px; padding: 6px 12px; justify-content: flex-end; }
-    .main { margin-left: 0; padding-top: 110px; }
-    .section { padding: 28px 18px; }
-    .watermark { display: none; }
-    .project-card, .edu-card, .hackathon-card, .contact-item { padding: 12px 14px; }
-    .contact-grid { gap: 10px; }
-  }
 </style>
 </head>
 <body>
@@ -216,6 +202,7 @@
     <div class="t-output">
       <div class="contact-grid">
         <a class="contact-item" href="mailto:adr7rshchaudhary@gmail.com"><span class="contact-label">email</span><span class="contact-val">adr7rshchaudhary@gmail.com</span></a>
+        <a class="contact-item" href="tel:+917701979269"><span class="contact-label">phone</span><span class="contact-val">+91 77019 79269</span></a>
         <a class="contact-item" href="https://linkedin.com/in/adarshchaudhary67" target="_blank"><span class="contact-label">linkedin</span><span class="contact-val">linkedin.com/in/adarshchaudhary67</span></a>
         <a class="contact-item" href="https://github.com/vo1dfull" target="_blank"><span class="contact-label">github</span><span class="contact-val">github.com/vo1dfull</span></a>
         <a class="contact-item" href="https://urban-reality-os.vercel.app" target="_blank"><span class="contact-label">project &#9650;</span><span class="contact-val">urban-reality-os.vercel.app</span></a>
