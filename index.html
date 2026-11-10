@@ -4,8 +4,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@700&family=Familjen+Grotesk:wght@400;600&family=JetBrains+Mono:wght@400;700&family=Silkscreen&display=swap">
 <style>
 :root{--paper:#ece6d6;--card:#f7f2e4;--ink:#141414;--red:#ff4b2b;--yel:#ffc928;--crt:#0b110d;--ph:#7dff9b;--mu:#6a6455;--d:'Anton',Impact,sans-serif;--b:'Familjen Grotesk',system-ui,sans-serif;--m:'JetBrains Mono',ui-monospace,monospace;--px:'Silkscreen',var(--m);--h:'Caveat',cursive;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-*,*::before,*::after{box-sizing:inherit;margin:0;padding:0}html{scroll-behavior:smooth;scroll-padding-top:70px;cursor:var(--cur,auto)}
-body{background:var(--paper) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .09 0'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>");color:var(--ink);font:17px/1.6 var(--b);overflow-x:hidden}
+*,*::before,*::after{box-sizing:inherit;margin:0;padding:0}html{scroll-behavior:smooth;scroll-padding-top:70px;cursor:var(--cur,auto);overflow-x:hidden;max-width:100%}
+body{background:var(--paper) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .09 0'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>");color:var(--ink);font:17px/1.6 var(--b);overflow-x:clip;-webkit-tap-highlight-color:transparent}
 a,button,.card,.shot,.col,.pin,.note,input{cursor:var(--hand,pointer)}a{color:inherit}
 .w{max-width:1080px;margin:0 auto;padding:0 22px}
 nav{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:3px solid var(--ink);display:flex;justify-content:center;gap:4px 22px;padding:12px 16px;flex-wrap:wrap;font:13px var(--px);text-transform:uppercase}
@@ -77,7 +77,9 @@ nav{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;gap:2px 8px;padd
 .w{padding:0 16px}.hero{padding:36px 0;gap:34px}.s1{right:-6px;top:10px}.s2{left:-6px}section{padding:56px 0 10px}.tape{margin:0 -16px}
 .tlw{margin-left:12px;padding-left:34px}.ph .nd{left:-46px;width:30px;height:30px}.ph h3{font-size:28px}.ph .bx{padding:16px}
 .crt{padding:16px}.cnt{grid-template-columns:1fr 1fr}.cnt .crt b{font-size:30px}.hs{grid-template-columns:24px 1fr 70px}.vb{gap:3px}.col span{display:none}
-.pets{display:none}.fig{margin-left:22px}.case{gap:30px}.sc b{font-size:30px}.steal{padding:16px}.pol{max-width:290px}.btn{margin-right:10px}}
+.fig{margin-left:22px}.case{gap:30px}.sc b{font-size:30px}.steal{padding:16px}.pol{max-width:290px}.btn{margin-right:10px}}
+html,body{overscroll-behavior-x:none}.case>*,.two>*,.hero>*,.hs>*,.crt{min-width:0}.pets{will-change:transform}
+@media(max-width:700px){.big{font-size:clamp(24px,7.4vw,92px)}.wall{grid-template-columns:1fr 1fr;gap:20px 14px}.pets{bottom:calc(8px + env(safe-area-inset-bottom,0px))}}
 </style></head><body>
 <nav aria-label="Sections"><a href="#about">about</a><a href="#experience">experience</a><a href="#work">work</a><a href="#results">results</a><a href="#stack">skills &amp; tech</a><a href="#contact" class="hire">contact</a></nav>
 <div id="home">
@@ -208,6 +210,6 @@ addEventListener('hashchange',route);route();
  const sp=(r,m,z)=>`<svg width="${r[0].length*z}" height="${r.length*z}" viewBox="0 0 ${r[0].length} ${r.length}" shape-rendering="crispEdges">`+r.map((q,y)=>[...q].map((k,x)=>m[k]?`<rect x="${x}" y="${y}" width="1" height="1" fill="${m[k]}"/>`:'').join('')).join('')+'</svg>';
  const C={B:'#141414',R:'#ff4b2b',Y:'#ffc928',W:'#f7f2e4',G:'#2f9e5a'};
  const D=[['...RR...,..BBBB..,.BBWWBB.,.BBBBBB.,..BBBB..,.BBBBBB.,B.BBBB.B,..B..B..,..B..B..,.BB..BB.',4],['.RR.RR.,RRRRRRR,RRRRRRR,.RRRRR.,..RRR..,...R...',5],['.BBBB.,BYYYYB,BYBBYB,BYBBYB,BYYYYB,.BBBB.',5],['........,..BBBB..,.BGGGGB.,BGBGGBGB,BGGGGGGB,BGGGGGGB,.BBBBBB.',4],['.BBBBBB.,BYYYYYYB,BBBBBBBB,BYYBBYYB,BYYYYYYB,BYYYYYYB,BBBBBBBB',4]].map(d=>[d[0].split(','),d[1]]);
- const ps=D.map((d,i)=>{const el=document.createElement('i');el.innerHTML=sp(d[0],C,d[1]);P.append(el);return{el,x:Math.random()*innerWidth*.8,d:i%2?1:-1,s:.4+i*.12,ph:i*1.7,r:.006+i*.0017}});
+ const ps=D.map((d,i)=>{const el=document.createElement('i');el.innerHTML=sp(d[0],C,Math.max(3,Math.round(d[1]*(innerWidth<700?.75:1))));P.append(el);return{el,x:Math.random()*innerWidth*.8,d:i%2?1:-1,s:.4+i*.12,ph:i*1.7,r:.006+i*.0017}});
  (function f(t){ps.forEach(p=>{p.x+=p.d*p.s;if(p.x>innerWidth-50)p.d=-1;else if(p.x<0)p.d=1;p.el.style.transform=`translate(${p.x}px,${-Math.abs(Math.sin(t*p.r+p.ph))*30}px) scaleX(${p.d})`});requestAnimationFrame(f)})(0)})();
 </script></body></html>
